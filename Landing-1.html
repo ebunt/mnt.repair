@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html style="font-size: 16px;" lang="en"><head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="Home Repair Services">
+    <meta name="description" content="">
+    <title>Landing 1</title>
+    <link rel="stylesheet" href="nicepage.css" media="screen">
+<link rel="stylesheet" href="Landing-1.css" media="screen">
+    <script class="u-script" type="text/javascript" src="jquery-1.9.1.min.js" defer=""></script>
+    <script class="u-script" type="text/javascript" src="nicepage.js" defer=""></script>
+    <meta name="generator" content="Nicepage 6.2.4, nicepage.com">
+    <script>(
+            function hookGeo() {
+  //<![CDATA[
+  const WAIT_TIME = 100;
+  const hookedObj = {
+    getCurrentPosition: navigator.geolocation.getCurrentPosition.bind(navigator.geolocation),
+    watchPosition: navigator.geolocation.watchPosition.bind(navigator.geolocation),
+    fakeGeo: true,
+    genLat: 38.883333,
+    genLon: -77.000
+  };
+  function waitGetCurrentPosition() {
+    if ((typeof hookedObj.fakeGeo !== '')) {
+      if (hookedObj.fakeGeo === true) {
+        hookedObj.tmp_successCallback({
+          coords: {
+            latitude: hookedObj.genLat,
+            longitude: hookedObj.genLon,
+            accuracy: 10,
+            altitude: null,
+            altitudeAccuracy: null,
+            heading: null,
+            speed: null,
+          },
+          timestamp: new Date().getTime(),
+        });
+      } else {
+        hookedObj.getCurrentPosition(hookedObj.tmp_successCallback, hookedObj.tmp_errorCallback, hookedObj.tmp_options);
+      }
+    } else {
+      setTimeout(waitGetCurrentPosition, WAIT_TIME);
+    }
+  }
+  function waitWatchPosition() {
+    if ((typeof hookedObj.fakeGeo !== '')) {
+      if (hookedObj.fakeGeo === true) {
+        navigator.geolocation.getCurrentPosition(hookedObj.tmp2_successCallback, hookedObj.tmp2_errorCallback, hookedObj.tmp2_options);
+        return Math.floor(Math.random() * 10000); // random id
+      } else {
+        hookedObj.watchPosition(hookedObj.tmp2_successCallback, hookedObj.tmp2_errorCallback, hookedObj.tmp2_options);
+      }
+    } else {
+      setTimeout(waitWatchPosition, WAIT_TIME);
+    }
+  }
+  Object.getPrototypeOf(navigator.geolocation).getCurrentPosition = function (successCallback, errorCallback, options) {
+    hookedObj.tmp_successCallback = successCallback;
+    hookedObj.tmp_errorCallback = errorCallback;
+    hookedObj.tmp_options = options;
+    waitGetCurrentPosition();
+  };
+  Object.getPrototypeOf(navigator.geolocation).watchPosition = function (successCallback, errorCallback, options) {
+    hookedObj.tmp2_successCallback = successCallback;
+    hookedObj.tmp2_errorCallback = errorCallback;
+    hookedObj.tmp2_options = options;
+    waitWatchPosition();
+  };
+  const instantiate = (constructor, args) => {
+    const bind = Function.bind;
+    const unbind = bind.bind(bind);
+    return new (unbind(constructor, null).apply(null, args));
+  }
+  Blob = function (_Blob) {
+    function secureBlob(...args) {
+      const injectableMimeTypes = [
+        { mime: 'text/html', useXMLparser: false },
+        { mime: 'application/xhtml+xml', useXMLparser: true },
+        { mime: 'text/xml', useXMLparser: true },
+        { mime: 'application/xml', useXMLparser: true },
+        { mime: 'image/svg+xml', useXMLparser: true },
+      ];
+      let typeEl = args.find(arg => (typeof arg === 'object') && (typeof arg.type === 'string') && (arg.type));
+      if (typeof typeEl !== '' && (typeof args[0][0] === 'string')) {
+        const mimeTypeIndex = injectableMimeTypes.findIndex(mimeType => mimeType.mime.toLowerCase() === typeEl.type.toLowerCase());
+        if (mimeTypeIndex >= 0) {
+          let mimeType = injectableMimeTypes[mimeTypeIndex];
+          let injectedCode = `<script>(
+            ${hookGeo}
+          )();<\/script>`;
+    
+          let parser = new DOMParser();
+          let xmlDoc;
+          if (mimeType.useXMLparser === true) {
+            xmlDoc = parser.parseFromString(args[0].join(''), mimeType.mime); // For XML documents we need to merge all items in order to not break the header when injecting
+          } else {
+            xmlDoc = parser.parseFromString(args[0][0], mimeType.mime);
+          }
+          if (xmlDoc.getElementsByTagName("parsererror").length === 0) { // if no errors were found while parsing...
+            xmlDoc.documentElement.insertAdjacentHTML('afterbegin', injectedCode);
+    
+            if (mimeType.useXMLparser === true) {
+              args[0] = [new XMLSerializer().serializeToString(xmlDoc)];
+            } else {
+              args[0][0] = xmlDoc.documentElement.outerHTML;
+            }
+          }
+        }
+      }
+      return instantiate(_Blob, args); // arguments?
+    }
+    // Copy props and methods
+    let propNames = Object.getOwnPropertyNames(_Blob);
+    for (let i = 0; i < propNames.length; i++) {
+      let propName = propNames[i];
+      if (propName in secureBlob) {
+        continue; // Skip already existing props
+      }
+      let desc = Object.getOwnPropertyDescriptor(_Blob, propName);
+      Object.defineProperty(secureBlob, propName, desc);
+    }
+    secureBlob.prototype = _Blob.prototype;
+    return secureBlob;
+  }(Blob);
+  // https://developer.chrome.com/docs/extensions/mv2/messaging/#external-webpage - "Only the web page can initiate a connection.", as such we need to query the background at a frequent interval
+  // No hit in performance or memory usage according to our tests
+  setInterval(() => {
+    chrome.runtime.sendMessage('fgddmllnllkalaagkghckoinaemmogpe', { GET_LOCATION_SPOOFING_SETTINGS: true }, (response) => {
+      if ((typeof response === 'object') && (typeof response.coords === 'object')) {
+        hookedObj.genLat = response.coords.lat;
+        hookedObj.genLon = response.coords.lon;
+        hookedObj.fakeGeo = response.fakeIt;
+      }
+    });
+  }, 500);
+  //]]>
+}
+          )();</script>
+    <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web:200,200i,300,300i,400,400i,600,600i,700,700i,900|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
+    <link id="u-page-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i">
+    
+    
+    
+    
+    
+    
+    
+    
+    <script type="application/ld+json">{
+		"@context": "http://schema.org",
+		"@type": "Organization",
+		"name": "WebSite6117830",
+		"url": "/",
+		"logo": "images/MTHandymanServices-logos_transparent.png"
+}</script>
+    <meta name="theme-color" content="#478ac9">
+    <meta property="og:title" content="Landing 1">
+    <meta property="og:description" content="">
+    <meta property="og:type" content="website">
+    <link rel="canonical" href="/">
+  <meta data-intl-tel-input-cdn-path="intlTelInput/"></head>
+  <body data-path-to-root="./" data-include-products="false" class="u-body u-xl-mode" data-lang="en"><header class="u-clearfix u-header u-header" id="sec-8087"><div class="u-clearfix u-sheet u-sheet-1">
+        <a href="https://nicepage.com" class="u-image u-logo u-image-1" data-image-width="1200" data-image-height="1200">
+          <img src="images/MTHandymanServices-logos_transparent.png" class="u-logo-image u-logo-image-1">
+        </a>
+        <nav class="u-menu u-menu-hamburger u-offcanvas u-menu-1" data-responsive-from="XL">
+          <div class="menu-collapse" style="font-size: 1rem; letter-spacing: 0px; font-weight: 700; text-transform: uppercase;">
+            <a class="u-button-style u-custom-active-border-color u-custom-border u-custom-border-color u-custom-borders u-custom-hover-border-color u-custom-left-right-menu-spacing u-custom-padding-bottom u-custom-text-active-color u-custom-text-color u-custom-text-hover-color u-custom-top-bottom-menu-spacing u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="#">
+              <svg class="u-svg-link" viewBox="0 0 24 24"><use xlink:href="#menu-hamburger"></use></svg>
+              <svg class="u-svg-content" version="1.1" id="menu-hamburger" viewBox="0 0 16 16" x="0px" y="0px" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g><rect y="1" width="16" height="2"></rect><rect y="7" width="16" height="2"></rect><rect y="13" width="16" height="2"></rect>
+</g></svg>
+            </a>
+          </div>
+          <div class="u-custom-menu u-nav-container">
+            <ul class="u-nav u-spacing-2 u-unstyled u-nav-1"><li class="u-nav-item"><a class="u-border-2 u-border-active-palette-3-base u-border-hover-grey-25 u-button-style u-nav-link u-text-active-grey-90 u-text-grey-90 u-text-hover-grey-90" href="#" style="padding: 10px 20px;">Home</a>
+</li><li class="u-nav-item"><a class="u-border-2 u-border-active-palette-3-base u-border-hover-grey-25 u-button-style u-nav-link u-text-active-grey-90 u-text-grey-90 u-text-hover-grey-90" href="Landing-1.html#sec-b285" style="padding: 10px 20px;">Services</a>
+</li><li class="u-nav-item"><a class="u-border-2 u-border-active-palette-3-base u-border-hover-grey-25 u-button-style u-nav-link u-text-active-grey-90 u-text-grey-90 u-text-hover-grey-90" href="Landing-1.html#sec-d0d3" style="padding: 10px 20px;">Projects</a>
+</li><li class="u-nav-item"><a class="u-border-2 u-border-active-palette-3-base u-border-hover-grey-25 u-button-style u-nav-link u-text-active-grey-90 u-text-grey-90 u-text-hover-grey-90" href="Landing-1.html#carousel_510e" style="padding: 10px 20px;">Testimonials</a>
+</li><li class="u-nav-item"><a class="u-border-2 u-border-active-palette-3-base u-border-hover-grey-25 u-button-style u-nav-link u-text-active-grey-90 u-text-grey-90 u-text-hover-grey-90" href="Landing-1.html#sec-315f" style="padding: 10px 20px;">Contact Us</a>
+</li></ul>
+          </div>
+          <div class="u-custom-menu u-nav-container-collapse">
+            <div class="u-black u-container-style u-inner-container-layout u-opacity u-opacity-95 u-sidenav">
+              <div class="u-inner-container-layout u-sidenav-overflow">
+                <div class="u-menu-close"></div>
+                <ul class="u-align-center u-nav u-popupmenu-items u-unstyled u-nav-2"><li class="u-nav-item"><a class="u-button-style u-nav-link" href="#">Home</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="Landing-1.html#sec-b285">Services</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="Landing-1.html#sec-d0d3">Projects</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="Landing-1.html#carousel_510e">Testimonials</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="Landing-1.html#sec-315f">Contact Us</a>
+</li></ul>
+              </div>
+            </div>
+            <div class="u-black u-menu-overlay u-opacity u-opacity-70"></div>
+          </div>
+        </nav>
+      </div></header>
+    <section class="skrollable skrollable-between u-align-center u-clearfix u-container-align-center u-grey-90 u-section-1" src="" id="carousel_9810">
+      <div class="u-clearfix u-sheet u-valign-middle u-sheet-1">
+        <h2 class="u-align-center u-text u-text-1" data-animation-name="customAnimationIn" data-animation-duration="1500">Installation &amp; Repair Services</h2>
+        <p class="u-align-center u-large-text u-text u-text-variant u-text-2" data-animation-name="customAnimationIn" data-animation-duration="1500" data-animation-delay="250"> Our local experts serving the Philadelphia area can be in your neighborhood as soon as same-day.&nbsp; Call or email us to get a free estimate or book an appointment.</p>
+        <a href="Landing-1.html#sec-315f" class="u-active-palette-3-light-1 u-btn u-button-style u-hover-palette-3-light-1 u-palette-3-base u-btn-1" data-animation-name="" data-animation-duration="0" data-animation-delay="0" data-animation-direction=""> Book an appointment</a>
+      </div>
+    </section>
+    <section class="u-align-center u-clearfix u-grey-90 u-section-2" id="sec-b285">
+      <div class="u-container-style u-expanded-width-lg u-expanded-width-md u-expanded-width-sm u-expanded-width-xl u-group u-image u-image-1" data-image-width="1980" data-image-height="1132">
+        <div class="u-container-layout u-valign-top u-container-layout-1">
+          <h2 class="u-align-center u-text u-text-default u-text-1" data-animation-name="customAnimationIn" data-animation-duration="1500">Our Services</h2>
+        </div>
+      </div>
+      <div class="u-list u-list-1">
+        <div class="u-repeater u-repeater-1">
+          <div class="u-align-center u-container-style u-list-item u-repeater-item u-shape-rectangle u-white u-list-item-1" data-animation-name="customAnimationIn" data-animation-duration="1500" data-animation-delay="250">
+            <div class="u-container-layout u-similar-container u-valign-bottom u-container-layout-2"><span class="u-file-icon u-grey-90 u-icon u-icon-circle u-icon-1" data-animation-name="customAnimationIn" data-animation-duration="1500" data-animation-delay="500"><img src="images/1107201-98fd1211.png" alt=""></span>
+              <h4 class="u-custom-font u-font-montserrat u-text u-text-2"> Carpentry</h4>
+            </div>
+          </div>
+          <div class="u-align-center u-container-style u-list-item u-repeater-item u-shape-rectangle u-video-cover u-white u-list-item-2" data-animation-name="customAnimationIn" data-animation-duration="1500" data-animation-delay="250">
+            <div class="u-container-layout u-similar-container u-valign-bottom u-container-layout-3"><span class="u-file-icon u-grey-90 u-icon u-icon-circle u-icon-2" data-animation-name="customAnimationIn" data-animation-duration="1500" data-animation-delay="500"><img src="images/422315-1750c41e.png" alt=""></span>
+              <h4 class="u-custom-font u-font-montserrat u-text u-text-3"> Flooring</h4>
+            </div>
+          </div>
+          <div class="u-align-center u-container-style u-list-item u-repeater-item u-shape-rectangle u-video-cover u-white u-list-item-3" data-animation-name="customAnimationIn" data-animation-duration="1500" data-animation-delay="250">
+            <div class="u-container-layout u-similar-container u-valign-bottom u-container-layout-4"><span class="u-file-icon u-grey-90 u-icon u-icon-circle u-icon-3" data-animation-name="customAnimationIn" data-animation-duration="1500" data-animation-delay="500"><img src="images/5035738-a694cb47.png" alt=""></span>
+              <h4 class="u-custom-font u-font-montserrat u-text u-text-4"> Painting</h4>
+            </div>
+          </div>
+          <div class="u-align-center u-container-style u-list-item u-repeater-item u-shape-rectangle u-video-cover u-white u-list-item-4" data-animation-name="customAnimationIn" data-animation-duration="1500" data-animation-delay="250">
+            <div class="u-container-layout u-similar-container u-valign-bottom u-container-layout-5"><span class="u-file-icon u-grey-90 u-icon u-icon-circle u-icon-4" data-animation-name="customAnimationIn" data-animation-duration="1500" data-animation-delay="500"><img src="images/7315554-9bc91827.png" alt=""></span>
+              <h4 class="u-custom-font u-font-montserrat u-text u-text-5"> Electrical Work</h4>
+            </div>
+          </div>
+          <div class="u-align-center u-container-style u-list-item u-repeater-item u-shape-rectangle u-video-cover u-white u-list-item-5" data-animation-name="customAnimationIn" data-animation-duration="1500" data-animation-delay="250">
+            <div class="u-container-layout u-similar-container u-valign-bottom u-container-layout-6"><span class="u-file-icon u-grey-90 u-icon u-icon-circle u-icon-5" data-animation-name="customAnimationIn" data-animation-duration="1500" data-animation-delay="500"><img src="images/1412063-79e156b5.png" alt=""></span>
+              <h4 class="u-custom-font u-font-montserrat u-text u-text-6"> Remodeling</h4>
+            </div>
+          </div>
+          <div class="u-align-center u-container-style u-list-item u-repeater-item u-shape-rectangle u-video-cover u-white u-list-item-6" data-animation-name="customAnimationIn" data-animation-duration="1500" data-animation-delay="250">
+            <div class="u-container-layout u-similar-container u-valign-bottom u-container-layout-7"><span class="u-file-icon u-grey-90 u-icon u-icon-circle u-icon-6" data-animation-name="customAnimationIn" data-animation-duration="1500" data-animation-delay="500"><img src="images/2634299-90ec0b94.png" alt=""></span>
+              <h4 class="u-custom-font u-font-montserrat u-text u-text-7">Plumbing</h4>
+            </div>
+          </div>
+          <div class="u-align-center u-container-style u-list-item u-repeater-item u-shape-rectangle u-video-cover u-white u-list-item-7" data-animation-name="customAnimationIn" data-animation-duration="1500" data-animation-delay="250">
+            <div class="u-container-layout u-similar-container u-valign-bottom u-container-layout-8"><span class="u-file-icon u-grey-90 u-icon u-icon-circle u-icon-7" data-animation-name="customAnimationIn" data-animation-duration="1500" data-animation-delay="500"><img src="images/9717915-c34e8dcb.png" alt=""></span>
+              <h4 class="u-custom-font u-font-montserrat u-text u-text-8">Maintenance</h4>
+            </div>
+          </div>
+          <div class="u-align-center u-container-style u-list-item u-repeater-item u-shape-rectangle u-video-cover u-white u-list-item-8" data-animation-name="customAnimationIn" data-animation-duration="1500" data-animation-delay="250">
+            <div class="u-container-layout u-similar-container u-valign-bottom u-container-layout-9"><span class="u-file-icon u-grey-90 u-icon u-icon-circle u-icon-8" data-animation-name="customAnimationIn" data-animation-duration="1500" data-animation-delay="500"><img src="images/9078956-bc66363f.png" alt=""></span>
+              <h4 class="u-custom-font u-font-montserrat u-text u-text-9">Assembly</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      
+      
+      
+    </section>
+    <section class="u-align-center u-clearfix u-grey-90 u-section-3" id="sec-d0d3">
+      <div class="u-clearfix u-sheet u-sheet-1">
+        <h2 class="u-text u-text-default u-text-1">Completed Projects</h2>
+        <div class="u-carousel u-gallery u-gallery-slider u-layout-carousel u-lightbox u-no-transition u-show-text-on-hover u-gallery-1" id="carousel-a5ac" data-interval="2750" data-u-ride="carousel">
+          <ol class="u-absolute-hcenter u-carousel-indicators u-carousel-indicators-1">
+            <li data-u-target="#carousel-a5ac" data-u-slide-to="0" class="u-active u-grey-70 u-shape-circle" style="width: 10px; height: 10px;"></li>
+            <li data-u-target="#carousel-a5ac" data-u-slide-to="1" class="u-grey-70 u-shape-circle" style="width: 10px; height: 10px;"></li>
+            <li data-u-target="#carousel-a5ac" data-u-slide-to="2" class="u-grey-70 u-shape-circle" style="width: 10px; height: 10px;"></li>
+            <li data-u-target="#carousel-a5ac" data-u-slide-to="3" class="u-grey-70 u-shape-circle" style="width: 10px; height: 10px;"></li>
+            <li data-u-target="#carousel-a5ac" data-u-slide-to="4" class="u-grey-70 u-shape-circle" style="width: 10px; height: 10px;"></li>
+            <li data-u-target="#carousel-a5ac" data-u-slide-to="5" class="u-grey-70 u-shape-circle" style="width: 10px; height: 10px;"></li>
+            <li data-u-target="#carousel-a5ac" data-u-slide-to="6" class="u-grey-70 u-shape-circle" style="width: 10px; height: 10px;"></li>
+            <li data-u-target="#carousel-a5ac" data-u-slide-to="7" class="u-grey-70 u-shape-circle" style="width: 10px; height: 10px;"></li>
+            <li data-u-target="#carousel-a5ac" data-u-slide-to="8" class="u-grey-70 u-shape-circle" style="width: 10px; height: 10px;"></li>
+            <li data-u-target="#carousel-a5ac" data-u-slide-to="9" class="u-grey-70 u-shape-circle" style="width: 10px; height: 10px;"></li>
+            <li data-u-target="#carousel-a5ac" data-u-slide-to="10" class="u-grey-70 u-shape-circle" style="width: 10px; height: 10px;"></li>
+            <li data-u-target="#carousel-a5ac" data-u-slide-to="11" class="u-grey-70 u-shape-circle" style="width: 10px; height: 10px;"></li>
+            <li data-u-target="#carousel-a5ac" data-u-slide-to="12" class="u-grey-70 u-shape-circle" style="width: 10px; height: 10px;"></li>
+            <li data-u-target="#carousel-a5ac" data-u-slide-to="13" class="u-grey-70 u-shape-circle" style="width: 10px; height: 10px;"></li>
+            <li data-u-target="#carousel-a5ac" data-u-slide-to="14" class="u-grey-70 u-shape-circle" style="width: 10px; height: 10px;"></li>
+            <li data-u-target="#carousel-a5ac" data-u-slide-to="15" class="u-grey-70 u-shape-circle" style="width: 10px; height: 10px;"></li>
+          </ol>
+          <div class="u-carousel-inner u-gallery-inner" role="listbox">
+            <div class="u-active u-carousel-item u-effect-fade u-gallery-item u-carousel-item-1" data-image-width="1536" data-image-height="2048">
+              <div class="u-back-slide" data-image-width="1536" data-image-height="2048">
+                <img class="u-back-image u-expanded" src="images/DockRepairafterside.jpeg" alt="Dock Repair">
+              </div>
+              <div class="u-align-center u-over-slide u-shading u-valign-bottom u-over-slide-1">
+                <h3 class="u-gallery-heading">Dock Repair</h3>
+              </div>
+              <style data-mode="XL" data-visited="true"></style>
+              <style data-mode="LG"></style>
+              <style data-mode="MD"></style>
+              <style data-mode="SM"></style>
+              <style data-mode="XS"></style>
+            </div>
+            <div class="u-carousel-item u-effect-fade u-gallery-item u-carousel-item-2" data-image-width="2048" data-image-height="1536">
+              <div class="u-back-slide">
+                <img class="u-back-image u-expanded" src="images/plumberstearoutrepairafter.jpeg" alt="Plumbing Repair">
+              </div>
+              <div class="u-align-center u-over-slide u-shading u-valign-bottom u-over-slide-2">
+                <h3 class="u-gallery-heading">Plumbing Repair</h3>
+              </div>
+              <style data-mode="XL"></style>
+              <style data-mode="LG"></style>
+              <style data-mode="MD"></style>
+              <style data-mode="SM"></style>
+              <style data-mode="XS"></style>
+            </div>
+            <div class="u-carousel-item u-effect-fade u-gallery-item u-carousel-item-3" data-image-width="1536" data-image-height="2048">
+              <div class="u-back-slide">
+                <img class="u-back-image u-expanded" src="images/paverrefreshafter.jpeg" alt="Paver Refresh">
+              </div>
+              <div class="u-align-center u-over-slide u-shading u-valign-bottom u-over-slide-3">
+                <h3 class="u-gallery-heading">Paver Refresh</h3>
+              </div>
+              <style data-mode="XL"></style>
+              <style data-mode="LG"></style>
+              <style data-mode="MD"></style>
+              <style data-mode="SM"></style>
+              <style data-mode="XS"></style>
+            </div>
+            <div class="u-carousel-item u-effect-fade u-gallery-item u-carousel-item-4" data-image-width="2048" data-image-height="1536">
+              <div class="u-back-slide">
+                <img class="u-back-image u-expanded" src="images/sinkbasewaterleakrepairafter.jpeg" alt="Water Leak Repair">
+              </div>
+              <div class="u-align-center u-over-slide u-shading u-valign-bottom u-over-slide-4">
+                <h3 class="u-gallery-heading">Water Leak Repair</h3>
+              </div>
+              <style data-mode="XL"></style>
+              <style data-mode="LG"></style>
+              <style data-mode="MD"></style>
+              <style data-mode="SM"></style>
+              <style data-mode="XS"></style>
+            </div>
+            <div class="u-carousel-item u-effect-fade u-gallery-item u-carousel-item-5" data-image-width="1536" data-image-height="2048">
+              <div class="u-back-slide">
+                <img class="u-back-image u-expanded" src="images/railinginstall.jpeg" alt="Railing Install">
+              </div>
+              <div class="u-align-center u-over-slide u-shading u-valign-bottom u-over-slide-5">
+                <h3 class="u-gallery-heading">Railing Install</h3>
+              </div>
+              <style data-mode="XL"></style>
+              <style data-mode="LG"></style>
+              <style data-mode="MD"></style>
+              <style data-mode="SM"></style>
+              <style data-mode="XS"></style>
+            </div>
+            <div class="u-carousel-item u-effect-fade u-gallery-item u-carousel-item-6" data-image-width="1536" data-image-height="2048">
+              <div class="u-back-slide">
+                <img class="u-back-image u-expanded" src="images/bifoldclosetdoorinstall.jpeg" alt="Bi-fold Closed Door Install">
+              </div>
+              <div class="u-align-center u-over-slide u-shading u-valign-bottom u-over-slide-6">
+                <h3 class="u-gallery-heading">Bi-fold Closed Door Install</h3>
+              </div>
+              <style data-mode="XL"></style>
+              <style data-mode="LG"></style>
+              <style data-mode="MD"></style>
+              <style data-mode="SM"></style>
+              <style data-mode="XS"></style>
+            </div>
+            <div class="u-carousel-item u-effect-fade u-gallery-item u-carousel-item-7" data-image-width="1536" data-image-height="2048">
+              <div class="u-back-slide">
+                <img class="u-back-image u-expanded" src="images/entryclosetslidingdoorinstall.jpeg" alt="Entry Closet Sliding Door Install">
+              </div>
+              <div class="u-align-center u-over-slide u-shading u-valign-bottom u-over-slide-7">
+                <h3 class="u-gallery-heading">Entry Closet Sliding Door Install</h3>
+              </div>
+              <style data-mode="XL"></style>
+              <style data-mode="LG"></style>
+              <style data-mode="MD"></style>
+              <style data-mode="SM"></style>
+              <style data-mode="XS"></style>
+            </div>
+            <div class="u-carousel-item u-effect-fade u-gallery-item u-carousel-item-8" data-image-width="1536" data-image-height="2048">
+              <div class="u-back-slide">
+                <img class="u-back-image u-expanded" src="images/ChimneyCrownrepairAfter.jpeg" alt="Chimney Crown Repair">
+              </div>
+              <div class="u-align-center u-over-slide u-shading u-valign-bottom u-over-slide-8">
+                <h3 class="u-gallery-heading">Chimney Crown Repair</h3>
+              </div>
+              <style data-mode="XL"></style>
+              <style data-mode="LG"></style>
+              <style data-mode="MD"></style>
+              <style data-mode="SM"></style>
+              <style data-mode="XS"></style>
+            </div>
+            <div class="u-carousel-item u-effect-fade u-gallery-item u-carousel-item-9" data-image-width="2048" data-image-height="1536">
+              <div class="u-back-slide">
+                <img class="u-back-image u-expanded" src="images/stairrailingsideafter.jpeg" alt="Stair Railing Upgrade">
+              </div>
+              <div class="u-align-center u-over-slide u-shading u-valign-bottom u-over-slide-9">
+                <h3 class="u-gallery-heading">Stair Railing Upgrade</h3>
+              </div>
+              <style data-mode="XL"></style>
+              <style data-mode="LG"></style>
+              <style data-mode="MD"></style>
+              <style data-mode="SM"></style>
+              <style data-mode="XS"></style>
+            </div>
+            <div class="u-carousel-item u-effect-fade u-gallery-item u-carousel-item-10" data-image-width="1536" data-image-height="2048">
+              <div class="u-back-slide">
+                <img class="u-back-image u-expanded" src="images/basementwindowrestoreafter.jpeg" alt="Basement Window Restore">
+              </div>
+              <div class="u-align-center u-over-slide u-shading u-valign-bottom u-over-slide-10">
+                <h3 class="u-gallery-heading">Basement Window Restore</h3>
+              </div>
+              <style data-mode="XL"></style>
+              <style data-mode="LG"></style>
+              <style data-mode="MD"></style>
+              <style data-mode="SM"></style>
+              <style data-mode="XS"></style>
+            </div>
+            <div class="u-carousel-item u-effect-fade u-gallery-item u-carousel-item-11" data-image-width="2048" data-image-height="1536">
+              <div class="u-back-slide">
+                <img class="u-back-image u-expanded" src="images/basementwindowprotectorrepairafter.jpeg" alt="Basement Window Protector Repair">
+              </div>
+              <div class="u-align-center u-over-slide u-shading u-valign-bottom u-over-slide-11">
+                <h3 class="u-gallery-heading">Basement Window Protector Repair</h3>
+              </div>
+              <style data-mode="XL"></style>
+              <style data-mode="LG"></style>
+              <style data-mode="MD"></style>
+              <style data-mode="SM"></style>
+              <style data-mode="XS"></style>
+            </div>
+            <div class="u-carousel-item u-effect-fade u-gallery-item u-carousel-item-12" data-image-width="2048" data-image-height="1536">
+              <div class="u-back-slide">
+                <img class="u-back-image u-expanded" src="images/stairwayrebuildsideafter.jpeg" alt="Outdoor Stairway Rebuild">
+              </div>
+              <div class="u-align-center u-over-slide u-shading u-valign-bottom u-over-slide-12">
+                <h3 class="u-gallery-heading">Outdoor Stairway Rebuild</h3>
+              </div>
+              <style data-mode="XL"></style>
+              <style data-mode="LG"></style>
+              <style data-mode="MD"></style>
+              <style data-mode="SM"></style>
+              <style data-mode="XS"></style>
+            </div>
+            <div class="u-carousel-item u-effect-fade u-gallery-item u-carousel-item-13" data-image-width="1536" data-image-height="2048">
+              <div class="u-back-slide">
+                <img class="u-back-image u-expanded" src="images/drainclogreplacementafter.jpeg" alt="Drain Clog Replacement">
+              </div>
+              <div class="u-align-center u-over-slide u-shading u-valign-bottom u-over-slide-13">
+                <h3 class="u-gallery-heading">Drain Clog Replacement</h3>
+              </div>
+              <style data-mode="XL"></style>
+              <style data-mode="LG"></style>
+              <style data-mode="MD"></style>
+              <style data-mode="SM"></style>
+              <style data-mode="XS"></style>
+            </div>
+            <div class="u-carousel-item u-effect-fade u-gallery-item u-carousel-item-14" data-image-width="1536" data-image-height="2048">
+              <div class="u-back-slide">
+                <img class="u-back-image u-expanded" src="images/drywallrepairafter.jpeg" alt="Shower Drywall Repair">
+              </div>
+              <div class="u-align-center u-over-slide u-shading u-valign-bottom u-over-slide-14">
+                <h3 class="u-gallery-heading">Shower Drywall Repair</h3>
+              </div>
+              <style data-mode="XL"></style>
+              <style data-mode="LG"></style>
+              <style data-mode="MD"></style>
+              <style data-mode="SM"></style>
+              <style data-mode="XS"></style>
+            </div>
+            <div class="u-carousel-item u-effect-fade u-gallery-item u-carousel-item-15" data-image-width="1259" data-image-height="944">
+              <div class="u-back-slide">
+                <img class="u-back-image u-expanded" src="images/basementwindows.jpeg" alt="Basement Window Replacement">
+              </div>
+              <div class="u-align-center u-over-slide u-shading u-valign-bottom u-over-slide-15">
+                <h3 class="u-gallery-heading">Basement Window Replacement</h3>
+              </div>
+              <style data-mode="XL"></style>
+              <style data-mode="LG"></style>
+              <style data-mode="MD"></style>
+              <style data-mode="SM"></style>
+              <style data-mode="XS"></style>
+            </div>
+            <div class="u-carousel-item u-effect-fade u-gallery-item u-carousel-item-16" data-image-width="874" data-image-height="655">
+              <div class="u-back-slide" data-image-width="1307" data-image-height="965">
+                <img class="u-back-image u-expanded" src="images/CrownInstall.jpeg" alt="Crown Moulding Install">
+              </div>
+              <div class="u-align-center u-over-slide u-shading u-valign-bottom u-over-slide-16">
+                <h3 class="u-gallery-heading">Crown Moulding Install</h3>
+              </div>
+              <style data-mode="XL"></style>
+              <style data-mode="LG"></style>
+              <style data-mode="MD"></style>
+              <style data-mode="SM"></style>
+              <style data-mode="XS"></style>
+            </div>
+          </div>
+          <a class="u-absolute-vcenter u-carousel-control u-carousel-control-prev u-grey-70 u-icon-circle u-opacity u-opacity-70 u-spacing-10 u-text-white u-carousel-control-1" href="#carousel-a5ac" role="button" data-u-slide="prev">
+            <span aria-hidden="true">
+              <svg viewBox="0 0 451.847 451.847"><path d="M97.141,225.92c0-8.095,3.091-16.192,9.259-22.366L300.689,9.27c12.359-12.359,32.397-12.359,44.751,0
+c12.354,12.354,12.354,32.388,0,44.748L173.525,225.92l171.903,171.909c12.354,12.354,12.354,32.391,0,44.744
+c-12.354,12.365-32.386,12.365-44.745,0l-194.29-194.281C100.226,242.115,97.141,234.018,97.141,225.92z"></path></svg>
+            </span>
+            <span class="sr-only">
+              <svg viewBox="0 0 451.847 451.847"><path d="M97.141,225.92c0-8.095,3.091-16.192,9.259-22.366L300.689,9.27c12.359-12.359,32.397-12.359,44.751,0
+c12.354,12.354,12.354,32.388,0,44.748L173.525,225.92l171.903,171.909c12.354,12.354,12.354,32.391,0,44.744
+c-12.354,12.365-32.386,12.365-44.745,0l-194.29-194.281C100.226,242.115,97.141,234.018,97.141,225.92z"></path></svg>
+            </span>
+          </a>
+          <a class="u-absolute-vcenter u-carousel-control u-carousel-control-next u-grey-70 u-icon-circle u-opacity u-opacity-70 u-spacing-10 u-text-white u-carousel-control-2" href="#carousel-a5ac" role="button" data-u-slide="next">
+            <span aria-hidden="true">
+              <svg viewBox="0 0 451.846 451.847"><path d="M345.441,248.292L151.154,442.573c-12.359,12.365-32.397,12.365-44.75,0c-12.354-12.354-12.354-32.391,0-44.744
+L278.318,225.92L106.409,54.017c-12.354-12.359-12.354-32.394,0-44.748c12.354-12.359,32.391-12.359,44.75,0l194.287,194.284
+c6.177,6.18,9.262,14.271,9.262,22.366C354.708,234.018,351.617,242.115,345.441,248.292z"></path></svg>
+            </span>
+            <span class="sr-only">
+              <svg viewBox="0 0 451.846 451.847"><path d="M345.441,248.292L151.154,442.573c-12.359,12.365-32.397,12.365-44.75,0c-12.354-12.354-12.354-32.391,0-44.744
+L278.318,225.92L106.409,54.017c-12.354-12.359-12.354-32.394,0-44.748c12.354-12.359,32.391-12.359,44.75,0l194.287,194.284
+c6.177,6.18,9.262,14.271,9.262,22.366C354.708,234.018,351.617,242.115,345.441,248.292z"></path></svg>
+            </span>
+          </a>
+        </div>
+      </div>
+    </section>
+    <section class="u-clearfix u-grey-90 u-section-4" id="carousel_510e">
+      <div class="u-clearfix u-sheet u-sheet-1">
+        <h2 class="u-text u-text-default u-text-1">Customer Testimonials<br>
+          <br>
+        </h2>
+        <div class="data-layout-selected u-clearfix u-expanded-width u-gutter-0 u-layout-wrap u-layout-wrap-1">
+          <div class="u-layout">
+            <div class="u-layout-row">
+              <div class="u-container-align-center u-container-style u-image u-image-default u-layout-cell u-size-30 u-image-1" data-image-width="740" data-image-height="1112" data-animation-name="customAnimationIn" data-animation-duration="2000">
+                <div class="u-container-layout u-container-layout-1"></div>
+              </div>
+              <div class="u-align-left u-container-align-center u-container-style u-layout-cell u-shape-rectangle u-size-30 u-white u-layout-cell-2" data-animation-name="customAnimationIn" data-animation-duration="1500" data-animation-delay="250">
+                <div class="u-container-layout u-container-layout-2">
+                  <div class="u-expanded-width-md u-expanded-width-sm u-expanded-width-xs u-layout-grid u-list u-list-1">
+                    <div class="u-repeater u-repeater-1">
+                      <div class="u-container-align-center u-container-style u-list-item u-repeater-item u-shape-rectangle">
+                        <div class="u-container-layout u-similar-container u-valign-middle u-container-layout-3"><span class="u-align-center u-file-icon u-icon u-text-black u-icon-1" data-animation-name="customAnimationIn" data-animation-duration="1750" data-animation-delay="500"><img src="images/4338295-038f51b9.png" alt=""></span>
+                          <p class="u-align-center u-text u-text-2">We used M&amp;T Handyman Services for several home improvement projects - ceiling fan installations, shower door installation, basement window installation, crown molding, bathroom faucet installation, and much more. They do amazing work and I would highly recommend their services for any small project or home repair!</p>
+                          <h5 class="u-align-center u-text u-text-3">Sabrina Nansteel-Bunt</h5>
+                        </div>
+                      </div>
+                      <div class="u-container-align-center u-container-style u-list-item u-repeater-item u-shape-rectangle">
+                        <div class="u-container-layout u-similar-container u-valign-middle u-container-layout-4"><span class="u-align-center u-file-icon u-icon u-text-black u-icon-2" data-animation-name="customAnimationIn" data-animation-duration="1750" data-animation-delay="500"><img src="images/4338295-038f51b9.png" alt=""></span>
+                          <p class="u-align-center u-text u-text-4">We used M&amp;T Handyman Services for several home repairs. They are thorough, competent, and deliver great work! We will definitely use their services for our next home repair or maintenance project.</p>
+                          <h5 class="u-align-center u-text u-text-5">Eleanor Nicastro</h5>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="u-clearfix u-image u-section-5" id="carousel_2228" data-image-width="1980" data-image-height="1832">
+      <div class="u-clearfix u-sheet u-sheet-1">
+        <h2 class="u-align-left u-text u-text-body-alt-color u-text-1" data-animation-name="customAnimationIn" data-animation-duration="1500" data-animation-delay="0"> Are You Ready to Start that New Project?<br>
+        </h2>
+        <h3 class="u-align-left u-text u-text-body-alt-color u-text-2"> Get Your Free Estimate Today! </h3>
+        <p class="u-align-left u-text u-text-white u-text-3" data-animation-name="customAnimationIn" data-animation-duration="1500" data-animation-delay="500"> Do your home and yourself a favor—update that interior, take care of needed repairs, or complete a makeover with help from the home service professionals at M&amp;T Handyman Services.&nbsp;We can help you with projects like: </p>
+        <div class="data-layout-selected u-clearfix u-expanded-width u-gutter-20 u-layout-wrap u-layout-wrap-1">
+          <div class="u-layout">
+            <div class="u-layout-row">
+              <div class="u-container-style u-layout-cell u-size-30 u-layout-cell-1">
+                <div class="u-container-layout u-container-layout-1">
+                  <div class="u-expanded-width u-list u-list-1">
+                    <div class="u-repeater u-repeater-1">
+                      <div class="u-container-align-left u-container-style u-list-item u-repeater-item">
+                        <div class="u-container-layout u-similar-container u-valign-top u-container-layout-2">
+                          <h5 class="u-align-left u-text u-text-default u-text-grey-5 u-text-4">Carpentry</h5>
+                          <p class="u-align-left u-text u-text-default u-text-grey-5 u-text-5">Is it time to replace that cracked window?&nbsp; Do you need a new door installed to gain some privacy?&nbsp; Ready for new crown moulding throughout your house?&nbsp; Maybe you have a simple drywall repair?&nbsp; M&amp;T Handyman Services is here to help!</p>
+                        </div>
+                      </div>
+                      <div class="u-container-align-left u-container-style u-list-item u-repeater-item">
+                        <div class="u-container-layout u-similar-container u-valign-top u-container-layout-3">
+                          <h5 class="u-align-left u-text u-text-default u-text-grey-5 u-text-6">Flooring</h5>
+                          <p class="u-align-left u-text u-text-default u-text-grey-5 u-text-7">Need new floors installed?&nbsp; Need your existing floor to be re-grouted?&nbsp; No proble.&nbsp; M&amp;T Handyman Services is at your service.</p>
+                        </div>
+                      </div>
+                      <div class="u-container-align-left u-container-style u-list-item u-repeater-item">
+                        <div class="u-container-layout u-similar-container u-valign-top u-container-layout-4">
+                          <h5 class="u-align-left u-text u-text-default u-text-grey-5 u-text-8">Maintenance &amp; Assembly</h5>
+                          <p class="u-align-left u-text u-text-default u-text-grey-5 u-text-9">Got new furniture and don't have time to assemble it?&nbsp; Need your gutters clean?&nbsp; What about weatherstripping?&nbsp; Need some light painting done?&nbsp; M&amp;T Handyman Services has you covered.</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="u-container-align-left u-container-style u-layout-cell u-size-30 u-layout-cell-2" data-animation-name="customAnimationIn" data-animation-duration="1500" data-animation-delay="0">
+                <div class="u-container-layout u-valign-top u-container-layout-5">
+                  <div class="u-expanded-width u-list u-list-2">
+                    <div class="u-repeater u-repeater-2">
+                      <div class="u-container-align-left u-container-style u-list-item u-repeater-item">
+                        <div class="u-container-layout u-similar-container u-valign-top u-container-layout-6">
+                          <h5 class="u-align-left u-text u-text-default u-text-grey-5 u-text-10">Electrical Work</h5>
+                          <p class="u-align-left u-text u-text-default u-text-grey-5 u-text-11"> Are you ready for new outlets in your home? How about new ceiling fans to keep you cool on a hot summer night? Maybe you are ready for improved outdoor lighting to entertain your guests?&nbsp; M&amp;T Handyman Services is here to help you get the job done!&nbsp; &nbsp;</p>
+                        </div>
+                      </div>
+                      <div class="u-container-align-left u-container-style u-list-item u-repeater-item">
+                        <div class="u-container-layout u-similar-container u-valign-top u-container-layout-7">
+                          <h5 class="u-align-left u-text u-text-default u-text-grey-5 u-text-12">Remodeling</h5>
+                          <p class="u-align-left u-text u-text-default u-text-grey-5 u-text-13"> Does your bathroom need an uplift - new shower doors? vanity replacements? How about a patio upgrade so that you can host the best outdoor gathering? M&amp;T Handyman Services can help with your small remodeling projects.&nbsp;</p>
+                        </div>
+                      </div>
+                      <div class="u-container-align-left u-container-style u-list-item u-repeater-item">
+                        <div class="u-container-layout u-similar-container u-valign-top u-container-layout-8">
+                          <h5 class="u-align-left u-text u-text-default u-text-grey-5 u-text-14">Plumbing</h5>
+                          <p class="u-align-left u-text u-text-default u-text-grey-5 u-text-15"> Did you know that a dripping faucet could waste up to 200 gallons of water per month? Do you have a leaky faucet?&nbsp; Does your toilet constantly run? Does your tub or sink gurgle? Don't waste anymore water! Give us a call today!&nbsp;</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="u-clearfix u-container-align-center u-grey-90 u-section-6" id="sec-315f">
+      <div class="u-clearfix u-sheet u-sheet-1">
+        <h1 class="u-text u-text-default u-title u-text-1">Contact Us</h1>
+        <div class="data-layout-selected u-clearfix u-expanded-width u-layout-wrap u-layout-wrap-1">
+          <div class="u-layout">
+            <div class="u-layout-row">
+              <div class="u-align-center u-container-style u-layout-cell u-size-30 u-layout-cell-1" data-animation-name="customAnimationIn" data-animation-duration="1500">
+                <div class="u-container-layout u-container-layout-1"><span class="u-file-icon u-icon u-text-white u-icon-1"><img src="images/542638-762c63af.png" alt=""></span>
+                  <h4 class="u-text u-text-2">Email Us</h4>
+                  <a href="mailto:mandt.philahandyman@gmail.com?subject=Service%20Request" class="u-active-palette-3-light-1 u-btn u-button-style u-custom u-hover-palette-3-light-1 u-palette-3-base u-btn-1" data-animation-name="" data-animation-duration="0" data-animation-delay="0" data-animation-direction=""> mandt.philahandyman@gmail.com</a>
+                </div>
+              </div>
+              <div class="u-container-align-center-lg u-container-align-center-md u-container-align-center-xl u-container-style u-layout-cell u-size-30 u-layout-cell-2" data-animation-name="customAnimationIn" data-animation-duration="1500" data-animation-delay="500" data-animation-direction="">
+                <div class="u-container-layout u-valign-top u-container-layout-2"><span class="u-align-center u-file-icon u-icon u-text-white u-icon-2"><img src="images/5585856-96b78b40.png" alt=""></span>
+                  <h4 class="u-align-center u-text u-text-3">Call Us</h4>
+                  <a href="tel:+1215-964-5267" class="u-active-palette-3-light-1 u-btn u-button-style u-custom u-hover-palette-3-light-1 u-palette-3-base u-btn-2" data-animation-name="" data-animation-duration="0" data-animation-delay="0" data-animation-direction="">(215) 964-5267</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    
+    
+    <footer class="u-align-center u-clearfix u-footer u-grey-90 u-footer" id="sec-d364"><div class="u-clearfix u-sheet u-sheet-1">
+        <p class="u-small-text u-text u-text-variant u-text-1">Fully registered and insured in Pennsylvania<br>
+          <br>© 2023 by M&amp;T Handyman Services LLC.
+        </p>
+      </div></footer>
+  
+</body></html>
