@@ -67,7 +67,7 @@
   min-height: 445px;
   margin-top: 0;
   margin-bottom: 0;
-  background-image: url("images/t4.png");
+  background-image: url("../images/t4.png");
   height: auto;
   background-position: 50% 0%;
 }
@@ -810,7 +810,7 @@
 
 .u-section-4 .u-image-1 {
   min-height: 629px;
-  background-image: url("images/rt.jpg");
+  background-image: url("../images/rt.jpg");
   background-position: 50% 50%;
   --animation-custom_in-translate_x: 0px;
   --animation-custom_in-translate_y: 0px;
